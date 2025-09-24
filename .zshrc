@@ -11,3 +11,15 @@ alias dx="echo '=== docker compose exec {container_name} bash ===' && docker com
 
 
 
+alias gph="echo '=== myprehook && git push origin HEAD ===' && myprehook && git push origin HEAD"
+alias gpu="echo '=== git pull ===' && git pull"
+alias gb="echo '=== git branch | grep \* ===' && git branch | grep \*"
+alias gba="echo '=== git branch ===' && git branch"
+alias gcb="echo '=== git checkout -b ===' && git checkout -b"
+alias gbd="echo '=== git branch -d ===' && git branch -d"
+alias gbdd="echo '=== git branch -D ===' && git branch -D"
+alias gcln="echo '=== git branch | grep -v '\''master'\'' | xargs git branch -d ===' && git branch | grep -v 'master' | xargs git branch -d"
+alias gfo="echo '=== git fetch origin ===' && git fetch origin"
+alias gs="echo '=== git switch ===' && git switch"
+
+
