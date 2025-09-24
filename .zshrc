@@ -44,3 +44,58 @@ alias zshsave="zshs && zshs && sh  ~/Desktop/products-202403-/dotfiles/_save.sh"
 alias dapsan="echo '=== docker exec -it {container_name} php artisan ===' && docker exec -it {container_name} php artisan"
 alias awsdevstop="aws ec2 stop-instances --instance-ids {AWS_INSTANCE_ID} --output text"
 alias awsdevstart="aws ec2 start-instances --instance-ids {AWS_INSTANCE_ID} --output text"
+
+
+
+
+alias awsdevstatus="aws ec2 describe-instances --instance-ids {AWS_INSTANCE_ID} --output text"
+alias insertld="insertLocalData"
+alias got="git"
+alias act="act --container-architecture linux/amd64"
+alias npmrunbuild="npm run build"
+alias sqldx="sqldx"
+
+
+gitBranchRefetch(){
+    if [ -z "$1" ]; then
+        echo "使用法: gitBranchRefetch branch_name"
+        return 1
+    fi
+    git switch master && git branch -D "$1" && git fetch origin "$1" && git switch "$1"
+}
+
+# ffmpegで動画圧縮
+compress() {
+    if [ -z "$1" ]; then
+        echo "使用法: compress input.mp4"
+        return 1
+    fi
+    ffmpeg -i "$1" -crf 18 "${1%.*}_compressed.${1##*.}"
+}
+
+
+# touchとmkdirの組み合わせで一発でファイル作成
+makefile() { mkdir -p "$(dirname "$1")" && touch "$1"; }
+
+sqldx(){
+    if [ $# -eq 0 ]; then
+        echo "使用法: sqldx <文字列>"
+        return 1
+    fi
+    docker exec -i db mysql -u {username} -ppassword {databasename} -e $1
+}
+
+# echo で囲ってくれるコマンド
+echowrap(){
+    if [ $# -eq 0 ]; then
+        echo "使用法: echo_with_separator <文字列>"
+        return 1
+    fi
+
+    echo "=== $1 ==="
+}
+
+# 簡易pre-commit-hook
+myprehook(){
+    pint
+}
