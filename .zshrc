@@ -23,3 +23,24 @@ alias gfo="echo '=== git fetch origin ===' && git fetch origin"
 alias gs="echo '=== git switch ===' && git switch"
 
 
+
+alias glo="echo '=== git log --oneline ===' && git log --oneline"
+alias cmd="echo '=== cat ~/.zshrc | grep alias ===' && cat ~/.zshrc | grep alias"
+alias cmdg="echo '=== cat ~/.zshrc | grep alias | grep ===' && cat ~/.zshrc | grep alias | grep"
+alias zso="echo '=== source ~/.zshrc ===' && source ~/.zshrc"
+alias zvi="echo '=== vi  ~/Desktop/products-202403-/dotfiles/.zshrc ===' && vi  ~/Desktop/products-202403-/dotfiles/.zshrc"
+alias ls="echo '=== ls -la ===' && ls -la"
+alias sl="echo '=== ls -la ===' && ls -la"
+alias cmv="echo '=== compress ===' && compress"
+alias mkfile="echo '=== makefile ===' && makefile"
+
+
+
+alias gss="echo '=== git add . && git stash save ===' && git add . && git stash save"
+alias ew="echowrap"
+alias d="docker exec {container_name}"
+alias gitap0="git stash apply stash@{0}"
+alias zshsave="zshs && zshs && sh  ~/Desktop/products-202403-/dotfiles/_save.sh"
+alias dapsan="echo '=== docker exec -it {container_name} php artisan ===' && docker exec -it {container_name} php artisan"
+alias awsdevstop="aws ec2 stop-instances --instance-ids {AWS_INSTANCE_ID} --output text"
+alias awsdevstart="aws ec2 start-instances --instance-ids {AWS_INSTANCE_ID} --output text"
