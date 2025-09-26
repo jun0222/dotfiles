@@ -101,3 +101,25 @@ function awsp() {
 # export PATH=/usr/local/Cellar/postgresql/14.7/bin/:$PATH
 # export RECAPTCHA_SITE_KEY   = '***'
 # export RECAPTCHA_SECRET_KEY = '***'
+
+# ==============================================================================
+# $ 削除関数 - bash profile用
+#
+# 使用法: dr <コマンド>
+# 各行の先頭の "$ " を削除して実行
+# ==============================================================================
+
+# $ 削除関数
+dr() {
+    if [ -z "$1" ]; then
+        echo "エラー: コマンドを指定してください"
+        return 1
+    fi
+
+    local cmd="$*"
+    # 各行の先頭の "$ " を削除
+    local replaced_cmd=$(echo "$cmd" | sed 's/^\$ //g')
+
+    echo "🟢 実行: $replaced_cmd"
+    eval "$replaced_cmd"
+}
