@@ -123,3 +123,8 @@ dr() {
     echo "🟢 実行: $replaced_cmd"
     eval "$replaced_cmd"
 }
+
+mp3compress() {
+    # 拡張子を除いたファイル名に _c をつけて実行
+    ffmpeg -i "$1" "${1%.*}_c.mp3"
+}
