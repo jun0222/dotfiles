@@ -1,32 +1,32 @@
 " ========================================
-" 1. プラグイン管理 (vim-floaterm を追加)
+" 1. プラグイン管理
 " ========================================
 call plug#begin('~/.vim/plugged')
 Plug 'tomasr/molokai'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'jwalton512/vim-blade'
-Plug 'voldikss/vim-floaterm'     " ターミナル管理プラグイン
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 " ========================================
 " 2. 基本設定
 " ========================================
-set number | set title | set showmatch
-set tabstop=2 | set shiftwidth=2 | set smartindent
-set t_Co=256 | syntax on
+set number title showmatch
+set tabstop=2 shiftwidth=2 smartindent
+set t_Co=256 syntax=on
 set termguicolors
 set mouse=
 
-set ignorecase | set smartcase | set hlsearch
+set ignorecase smartcase hlsearch
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " ========================================
-" 3. プラグイン設定 (floaterm を下部固定に設定)
+" 3. プラグイン設定 (Floaterm)
 " ========================================
-let g:floaterm_wintype = 'split'    " 画面分割で開く
-let g:floaterm_position = 'botright' " 下側に開く
-let g:floaterm_height = 10           " デフォルトの高さを10行に設定
+let g:floaterm_wintype = 'split'
+let g:floaterm_position = 'botright'
+let g:floaterm_height = 10
 
 " ========================================
 " 4. カンニングペーパー
@@ -37,20 +37,23 @@ let g:cheat_data = [
 \ ' Ctrl+w w   : 窓を順に移動',
 \ ' Ctrl+w k   : 上へ / Ctrl+w j : 下へ',
 \ '',
-\ '[ ターミナル (floaterm使用) ]',
-\ ' Ctrl+t     : ターミナルの表示・非表示(トグル)',
+\ '[ スクロール ]',
+\ ' Ctrl+f : 1画面下 / Ctrl+b : 1画面上',
+\ ' Ctrl+d : 半画面下 / Ctrl+u : 半画面上',
+\ '',
+\ '[ ターミナル (floaterm) ]',
+\ ' Ctrl+t     : 出す・隠す (トグル)',
 \ ' :FloatermNew --height=5 : 5行で開く',
 \ '',
 \ '[ ターミナル操作 ]',
 \ ' 1. Esc Esc  でモード切替',
-\ ' 2. Ctrl+w k で上のコード編集へ移動',
-\ ' i : ターミナル入力モードへ復帰',
-\ ' exit : ターミナルを完全に終了',
+\ ' 2. 窓移動後、i で入力モードへ復帰',
+\ ' exit : 完全に終了して閉じる',
 \ '',
 \ '[ 移動・編集 ]',
 \ ' w/b : 1単語前後 / $ / 0 : 行末/行頭',
 \ ' u   : undo (戻す) / Ctrl+r : redo (進む)',
-\ ' d/y/p : 消/写/貼',
+\ ' d/y/p : 消/写/貼 / G / gg : 末行 / 初行',
 \ '',
 \ '[ 検索・矩形選択 ]',
 \ ' /単語  : 検索 (nで次 / Nで前)',
@@ -70,19 +73,21 @@ function! OpenCheatSheet()
 endfunction
 
 " ========================================
-" 5. 全閉じ設定 (道連れ終了のみ関数化)
+" 5. キーバインド
 " ========================================
-autocmd BufEnter * if winnr('$') == 1 && (bufname('%') == 'Cheat_Sheet' || &buftype == 'terminal') | q | endif
+let mapleader = "\<Space>"
 
-" ========================================
-" 6. キーバインド & 自動起動
-" ========================================
-" Ctrl+t でターミナルを出し入れ（プラグインの機能を使用）
+" ターミナルのトグル
 nnoremap <C-t> :FloatermToggle<CR>
 tnoremap <C-t> <C-\><C-n>:FloatermToggle<CR>
 
-" ターミナルから戻る手順
+" ターミナルから戻る
 tnoremap <Esc><Esc> <C-\><C-n>
 
-autocmd vimenter * colorscheme molokai
-autocmd vimenter * call OpenCheatSheet()
+" ========================================
+" 6. 自動実行
+" ========================================
+autocmd vimenter * colorscheme molokai | call OpenCheatSheet()
+
+" 特殊窓（カンペやターミナル）だけが残ったら、確認なしで全終了する
+autocmd BufEnter * if winnr('$') == 1 && (&buftype == 'terminal' || bufname('%') == 'Cheat_Sheet') | qa! | endif
