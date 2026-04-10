@@ -89,5 +89,5 @@ tnoremap <Esc><Esc> <C-\><C-n>
 " ========================================
 autocmd vimenter * colorscheme molokai | call OpenCheatSheet()
 
-" 特殊窓（カンペやターミナル）だけが残ったら、確認なしで全終了する
-autocmd BufEnter * if winnr('$') == 1 && (&buftype == 'terminal' || bufname('%') == 'Cheat_Sheet') | qa! | endif
+" 画面上に「普通のファイル（編集画面）」が無くなったら、全て閉じる
+autocmd BufEnter * if empty(filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "&buftype") == "" && bufname(winbufnr(v:val)) != "Cheat_Sheet"')) | qa! | endif
