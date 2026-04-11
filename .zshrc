@@ -67,8 +67,9 @@ alias gdext='git diff main --numstat | awk "{split(\$3,a,\".\"); if(length(a)>1)
 # Git（関数）
 # ---------------------------------------------------------------------
 
-# Git: リモートブランチを取り直して切り替え
+# Git: master固定版 - リモートブランチを取り直して切り替え
 gitBranchRefetch(){
+    _fd $0
     if [ -z "$1" ]; then
         echo "使用法: gitBranchRefetch branch_name"
         return 1
@@ -76,9 +77,35 @@ gitBranchRefetch(){
     git switch master && git branch -D "$1" && git fetch origin "$1" && git switch "$1"
 }
 
-# 簡易pre-commit-hook（pint を実行）
-myprehook(){
-    pint
+# Git: main固定版 - リモートブランチを取り直して切り替え
+gitbranchrefetch(){
+    _fd $0
+    if [ -z "$1" ]; then
+        echo "使用法: gitbranchrefetch branch_name"
+        return 1
+    fi
+    git switch main && git branch -D "$1" && git fetch origin "$1" && git switch "$1"
+}
+
+gitfetchswitch(){
+    _fd $0
+    git fetch origin "$1" && git switch "$1"
+}
+
+unalias gfr 2>/dev/null
+gfr() {
+    _fd $0
+    local branch="${1:-$(git branch --show-current)}"
+    git fetch && git rebase "origin/$branch"
+}
+
+tottekuru() {
+    _fd $0
+    if [ $# -ne 2 ]; then
+        echo "Usage: tottekuru <branch_name> <filename>"
+        return 1
+    fi
+    git checkout $1 -- $2
 }
 
 # ---------------------------------------------------------------------
