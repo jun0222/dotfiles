@@ -33,7 +33,7 @@ export NVM_DIR="$HOME/.nvm"
 # cd
 alias cdd='cd ~/Desktop'
 alias cddow='cd ~/Downloads'
-alias cdp='cd ~/Desktop/products/'
+alias cdp='cd ~/Desktop/products-202403-/'
 
 # terraform
 alias tf='terraform'
