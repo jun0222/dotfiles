@@ -194,22 +194,20 @@ ae --echo slack "/remind me リマインド内容"
 ae gmail "echo \"https://mail.google.com/mail/u/0/#search/is%3Aunread\""
 
 # ---------------------------------------------------------------------
-alias zshs="echo '=== sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc ===' && sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc"
-alias zshsave="echo '=== zshs && zshs && sh  ~/Desktop/path/to/_save.sh ===' && zshs && zshs && sh  ~/Desktop/path/to/_save.sh"
-alias myip="echo '=== ifconfig | grep inet\ 192 ===' && ifconfig | grep inet\ 192"
-alias cdd="echo '=== cd ~/Desktop ===' && cd ~/Desktop"
-alias cmd="echo '=== cat ~/.zshrc | grep alias ===' && cat ~/.zshrc | grep alias"
-alias cmdg="echo '=== cat ~/.zshrc | grep alias | grep ===' && cat ~/.zshrc | grep alias | grep"
-alias zso="echo '=== source ~/.zshrc ===' && source ~/.zshrc"
-alias zvi="echo '=== vi  ~/Desktop/path/to/.zshrc ===' && vi  ~/Desktop/path/to/.zshrc"
-alias ls="echo '=== ls -la ===' && ls -la"
-alias sl="echo '=== ls -la ===' && ls -la"
-alias cmv="echo '=== compress ===' && compress"
-alias mkfile="echo '=== makefile ===' && makefile"
-alias ew="echo '=== echowrap ===' && echowrap"
-alias insertld="echo '=== insertLocalData ===' && insertLocalData"
-alias act="echo '=== act --container-architecture linux/amd64 ===' && act --container-architecture linux/amd64"
-alias npmrunbuild="echo '=== npm run build ===' && npm run build"
+# 関数群: ユーティリティ
+# ---------------------------------------------------------------------
+
+# テキストマスク: 単語置換
+# 使い方: echo "秘密のテキスト" | tmaskrep 秘密 ****
+tmaskrep(){
+    _fd $0
+    if [ $# -ne 2 ]; then
+        echo "使用法: echo \"text\" | tmaskrep <元の単語> <置換後の単語>"
+        return 1
+    fi
+    sed "s/$(printf '%s' "$1" | sed 's/[&/\]/\\&/g')/$(printf '%s' "$2" | sed 's/[&/\]/\\&/g')/g"
+}
+
 # テキストマスク: 形式保持ランダム置換 (a→x, B→M, 3→7 等。同じ文字は同じ文字にマッピング)
 # 使い方: echo "Hello World 123" | tmask
 tmask(){
