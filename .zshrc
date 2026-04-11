@@ -196,8 +196,11 @@ compress() {
     ffmpeg -i "$1" -crf 18 "${1%.*}_compressed.${1##*.}"
 }
 
-# touch と mkdir の組み合わせで一発でファイル作成
-makefile() { mkdir -p "$(dirname "$1")" && touch "$1"; }
+# touchとmkdirの組み合わせで一発でファイル作成
+makefile() {
+    _fd $0
+    mkdir -p "$(dirname "$1")" && touch "$1"
+}
 
 # echoで囲ってくれるコマンド
 echowrap(){
