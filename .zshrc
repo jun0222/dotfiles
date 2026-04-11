@@ -111,10 +111,9 @@ tottekuru() {
 # ---------------------------------------------------------------------
 # Docker（エイリアス/関数）
 # ---------------------------------------------------------------------
-alias dx="echo '=== docker compose exec {container_name} bash ===' && docker compose exec {container_name} bash"
-alias d="echo '=== docker exec {container_name} ===' && docker exec {container_name}"
-alias dapsan="echo '=== docker exec -it {container_name} php artisan ===' && docker exec -it {container_name} php artisan"
-alias sqldx="sqldx"
+ae d "docker exec app"
+ae dx "docker compose exec app bash"
+ae dapsan "docker exec -it {container_name} php artisan"
 
 # 簡易SQL実行（Docker経由）
 # 注意: -ppassword のような直書きは避け、実運用時は環境変数/プロンプト入力にしてください
