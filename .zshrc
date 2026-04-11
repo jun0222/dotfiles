@@ -210,6 +210,29 @@ alias ew="echo '=== echowrap ===' && echowrap"
 alias insertld="echo '=== insertLocalData ===' && insertLocalData"
 alias act="echo '=== act --container-architecture linux/amd64 ===' && act --container-architecture linux/amd64"
 alias npmrunbuild="echo '=== npm run build ===' && npm run build"
+# テキストマスク: 形式保持ランダム置換 (a→x, B→M, 3→7 等。同じ文字は同じ文字にマッピング)
+# 使い方: echo "Hello World 123" | tmask
+tmask(){
+    _fd $0
+    python3 -c "
+import random, string, sys
+
+def derange(chars):
+    lst = list(chars)
+    shuffled = lst[:]
+    for _ in range(1000):
+        random.shuffle(shuffled)
+        if all(a != b for a, b in zip(lst, shuffled)):
+            return ''.join(shuffled)
+    return ''.join(shuffled)
+
+text = sys.stdin.read()
+lmap = str.maketrans(string.ascii_lowercase, derange(string.ascii_lowercase))
+umap = str.maketrans(string.ascii_uppercase, derange(string.ascii_uppercase))
+dmap = str.maketrans(string.digits, derange(string.digits))
+sys.stdout.write(text.translate(lmap).translate(umap).translate(dmap))
+"
+}
 
 # ffmpegで動画圧縮
 compress() {
