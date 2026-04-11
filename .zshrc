@@ -11,8 +11,58 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
 
+eval "$(git wt --init zsh)"
+
+# =========================
+# ae: echo(===)付きエイリアス作成ヘルパー
+# 使い方: ae <別名> <実行コマンド...>
+# --echo: コマンドを表示するだけで実行しない
+# =========================
+ae() {
+  local echo_only=0
+  if [[ "$1" == "--echo" ]]; then
+    echo_only=1
+    shift
+  fi
+  local name="$1"
+  shift
+  local cmd="$*"
+  if [[ $echo_only -eq 1 ]]; then
+    alias "$name"="printf '\e[32m%s\e[0m\n' \"=== $cmd ===\" && echo \"$cmd\""
+  else
+    alias "$name"="printf '\e[32m%s\e[0m\n' \"=== $cmd ===\" && $cmd"
+  fi
+}
+
+# 関数実行時に定義を表示するヘルパー
+_fd() { printf '\e[32m%s\e[0m\n' "$(functions $1)"; }
+
 # ---------------------------------------------------------------------
-# Git（エイリアス/関数）
+# Git（エイリアス）
+# ---------------------------------------------------------------------
+ae gph "myprehook && git push origin HEAD"
+ae gpu "git pull"
+ae gitpushorigin "git push origin"
+ae gitpullorigin "git pull origin"
+ae gb "git branch | grep \*"
+ae gba "git branch"
+ae gcb "git checkout -b"
+ae gbd "git branch -d"
+ae gbdd "git branch -D"
+ae gcln "git branch | grep -v 'master' | xargs git branch -d"  # 注意: 一括削除
+ae gcln2 "git branch | grep -v 'main' | xargs git branch -d"
+ae gfo "git fetch origin"
+ae gs "git switch"
+ae glo "git log --oneline"
+ae gss "git add . && git stash save"
+ae got "git"
+ae gitap0 "git stash apply stash@{0}"
+ae gssgitap0 "gss && gitap0"
+ae gbcopy "gb | sed 's/* //g' | pbcopy"
+
+# mainブランチ固定版: 拡張子別変更行数集計
+alias gdext='git diff main --numstat | awk "{split(\$3,a,\".\"); if(length(a)>1){ext=a[length(a)]; count[ext]+=\$1+\$2}} END {for(e in count) print e, count[e]}" | sort -k2 -nr'
+
 # ---------------------------------------------------------------------
 alias gph="echo '=== myprehook && git push origin HEAD ===' && myprehook && git push origin HEAD"
 alias gpu="echo '=== git pull ===' && git pull"
