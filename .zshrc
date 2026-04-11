@@ -134,6 +134,32 @@ ae npmrundev "npm run dev"
 ae npmruntest "npm run test"
 ae npmi "npm i"
 
+# ---------------------------------------------------------------------
+# ナビゲーション / cd
+# ---------------------------------------------------------------------
+ae cdd "cd ~/Desktop"
+ae desktop "~/Desktop"
+
+# ---------------------------------------------------------------------
+# ファイル操作 / ユーティリティ
+# ---------------------------------------------------------------------
+ae ls "ls -la"
+ae sl "ls -la"
+ae mkfile "makefile"
+ae cmp "compress"
+ae cmv "compress"
+ae myip "ifconfig | grep inet\ 192"
+ae da "date +\"%Y%m%d\" && date +\"%Y%m%d%H%M\" && date +\"%Y%m%d%H%M%S\" && date +\"%Y%m%d%H%M_%S\" && date +\"%Y_%m_%d_%H%_M_%S\""
+ae cal "jpcal -3"
+ae cあl "jpcal -3"
+ae ew "echowrap"
+ae gamenrokuga "osascript -e 'tell application \"QuickTime Player\" to activate' -e 'tell application \"System Events\" to tell process \"QuickTime Player\" to click menu item \"新規画面収録\" of menu \"ファイル\" of menu bar 1'"
+
+alias darename2='f(){ printf "\e[32m%s\e[0m\n" "darename2: mv \$@ → \$(date +%Y_%m_%d_%H%M_%S)_\$@" && mv "${@}" "$(dirname ${@})/$(date +%Y_%m_%d_%H%M_%S)_$(basename ${@})"; unset -f f; }; f'
+
+# 日時プレフィックス付きリネーム (202604101645_16_filename.txt 形式)
+darename(){
+    _fd $0
     if [ $# -eq 0 ]; then
         echo "使用法: sqldx <文字列>"
         return 1
@@ -173,12 +199,12 @@ compress() {
 # touch と mkdir の組み合わせで一発でファイル作成
 makefile() { mkdir -p "$(dirname "$1")" && touch "$1"; }
 
-# echo で囲ってくれるコマンド
+# echoで囲ってくれるコマンド
 echowrap(){
+    _fd $0
     if [ $# -eq 0 ]; then
-        echo "使用法: echo_with_separator <文字列>"
+        echo "使用法: echowrap <文字列>"
         return 1
     fi
-
     echo "=== $1 ==="
 }
