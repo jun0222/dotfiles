@@ -189,11 +189,12 @@ alias npmrunbuild="echo '=== npm run build ===' && npm run build"
 
 # ffmpegで動画圧縮
 compress() {
+    _fd $0
     if [ -z "$1" ]; then
         echo "使用法: compress input.mp4"
         return 1
     fi
-    ffmpeg -i "$1" -crf 18 "${1%.*}_compressed.${1##*.}"
+    ffmpeg -i "$1" -vf "scale=1280:-2" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "${1%.*}_compressed.mp4"
 }
 
 # touchとmkdirの組み合わせで一発でファイル作成
