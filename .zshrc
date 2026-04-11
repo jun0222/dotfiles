@@ -161,10 +161,20 @@ alias darename2='f(){ printf "\e[32m%s\e[0m\n" "darename2: mv \$@ → \$(date +%
 darename(){
     _fd $0
     if [ $# -eq 0 ]; then
-        echo "使用法: sqldx <文字列>"
+        echo "使用法: darename <ファイル名...>"
         return 1
     fi
-    docker exec -i db mysql -u {username} -ppassword {databasename} -e $1
+    for file in "$@"; do
+        if [ ! -e "$file" ]; then
+            echo "エラー: $file が見つかりません"
+            continue
+        fi
+        local dir=$(dirname "$file")
+        local base=$(basename "$file")
+        local newname="${dir}/$(date +%Y%m%d%H%M_%S)_${base}"
+        mv "$file" "$newname"
+        echo "$base → $(basename "$newname")"
+    done
 }
 
 # ---------------------------------------------------------------------
