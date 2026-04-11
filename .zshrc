@@ -179,6 +179,15 @@ darename(){
 
 # ---------------------------------------------------------------------
 # その他（ユーティリティ/環境系）
+# zshrc管理
+# ---------------------------------------------------------------------
+ae cmd "cat ~/.zshrc | grep ae"
+ae cmdg "cat ~/.zshrc | grep ae | grep"
+ae zso "source ~/.zshrc"
+ae zvi "vi ~/.zshrc"
+ae zshs "sh ./_zsh_save.sh && source ~/.zshrc"
+ae zshsave "zshs && zshs && sh ./_save.sh"
+
 # ---------------------------------------------------------------------
 alias zshs="echo '=== sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc ===' && sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc"
 alias zshsave="echo '=== zshs && zshs && sh  ~/Desktop/path/to/_save.sh ===' && zshs && zshs && sh  ~/Desktop/path/to/_save.sh"
