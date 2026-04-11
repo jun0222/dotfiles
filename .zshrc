@@ -64,20 +64,8 @@ ae gbcopy "gb | sed 's/* //g' | pbcopy"
 alias gdext='git diff main --numstat | awk "{split(\$3,a,\".\"); if(length(a)>1){ext=a[length(a)]; count[ext]+=\$1+\$2}} END {for(e in count) print e, count[e]}" | sort -k2 -nr'
 
 # ---------------------------------------------------------------------
-alias gph="echo '=== myprehook && git push origin HEAD ===' && myprehook && git push origin HEAD"
-alias gpu="echo '=== git pull ===' && git pull"
-alias gb="echo '=== git branch | grep \* ===' && git branch | grep \*"
-alias gba="echo '=== git branch ===' && git branch"
-alias gcb="echo '=== git checkout -b ===' && git checkout -b"
-alias gbd="echo '=== git branch -d ===' && git branch -d"
-alias gbdd="echo '=== git branch -D ===' && git branch -D"
-alias gcln="echo '=== git branch | grep -v '\''master'\'' | xargs git branch -d ===' && git branch | grep -v 'master' | xargs git branch -d"  # 注意: 一括削除
-alias gfo="echo '=== git fetch origin ===' && git fetch origin"
-alias gs="echo '=== git switch ===' && git switch"
-alias glo="echo '=== git log --oneline ===' && git log --oneline"
-alias gss="echo '=== git add . && git stash save ===' && git add . && git stash save"
-alias gitap0="echo '=== git stash apply stash@{0} ===' && git stash apply stash@{0}"
-alias got="echo '=== git ===' && git"
+# Git（関数）
+# ---------------------------------------------------------------------
 
 # Git: リモートブランチを取り直して切り替え
 gitBranchRefetch(){
