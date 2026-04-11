@@ -117,7 +117,16 @@ ae dapsan "docker exec -it {container_name} php artisan"
 
 # 簡易SQL実行（Docker経由）
 # 注意: -ppassword のような直書きは避け、実運用時は環境変数/プロンプト入力にしてください
+# DB_USER / DB_PASS / DB_NAME は環境変数または .zshrc.local で設定
 sqldx(){
+    _fd $0
+    if [ $# -eq 0 ]; then
+        echo "使用法: sqldx <SQL文>"
+        return 1
+    fi
+    docker exec -i db mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" -e $1
+}
+
     if [ $# -eq 0 ]; then
         echo "使用法: sqldx <文字列>"
         return 1
