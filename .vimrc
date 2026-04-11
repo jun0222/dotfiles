@@ -33,6 +33,9 @@ let g:floaterm_height = 10
 " ========================================
 let g:cheat_data = [
 \ '======= 実践Vimカンペ (Mac) =======',
+\ '[ カンペスクロール ]',
+\ ' Space+j : 下へ / Space+k : 上へ',
+\ '',
 \ '[ 数字 ]',
 \ 'd3wで3単語削除など組み合わせ可能',
 \ '',
@@ -81,7 +84,17 @@ function! OpenCheatSheet()
     setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodifiable
     setlocal nonumber norelativenumber wrap modifiable
     silent put =g:cheat_data | silent 1delete _
-    setlocal nomodifiable | wincmd p
+    setlocal nomodifiable mouse=a | wincmd p
+  endif
+endfunction
+
+function! ScrollCheatSheet(lines)
+  let l:winnr = bufwinnr('Cheat_Sheet')
+  if l:winnr != -1
+    let l:cur = winnr()
+    execute l:winnr . 'wincmd w'
+    execute 'normal! ' . abs(a:lines) . (a:lines > 0 ? "\<C-e>" : "\<C-y>")
+    execute l:cur . 'wincmd w'
   endif
 endfunction
 
@@ -96,6 +109,10 @@ tnoremap <C-t> <C-\><C-n>:FloatermToggle<CR>
 
 " ターミナルから戻る
 tnoremap <Esc><Esc> <C-\><C-n>
+
+" カンペのスクロール
+nnoremap <Leader>j :call ScrollCheatSheet(3)<CR>
+nnoremap <Leader>k :call ScrollCheatSheet(-3)<CR>
 
 " ========================================
 " 6. 自動実行
