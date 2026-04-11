@@ -109,15 +109,6 @@ tottekuru() {
 }
 
 # ---------------------------------------------------------------------
-# AWS（エイリアス）
-# ---------------------------------------------------------------------
-alias awsdevip="echo '=== aws ec2 describe-instances --instance-ids {AWS_INSTANCE_ID} --query '\''Reservations[*].Instances[*].PublicIpAddress'\'' --output text ===' && aws ec2 describe-instances --instance-ids {AWS_INSTANCE_ID} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text"
-alias awsdevc="echo '=== awsDevConnect ===' && awsDevConnect"
-alias awsdevstop="echo '=== aws ec2 stop-instances --instance-ids {AWS_INSTANCE_ID} --output text ===' && aws ec2 stop-instances --instance-ids {AWS_INSTANCE_ID} --output text"
-alias awsdevstart="echo '=== aws ec2 start-instances --instance-ids {AWS_INSTANCE_ID} --output text ===' && aws ec2 start-instances --instance-ids {AWS_INSTANCE_ID} --output text"
-alias awsdevstatus="echo '=== aws ec2 describe-instances --instance-ids {AWS_INSTANCE_ID} --output text ===' && aws ec2 describe-instances --instance-ids {AWS_INSTANCE_ID} --output text"
-
-# ---------------------------------------------------------------------
 # Docker（エイリアス/関数）
 # ---------------------------------------------------------------------
 alias dx="echo '=== docker compose exec {container_name} bash ===' && docker compose exec {container_name} bash"
