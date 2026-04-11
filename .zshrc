@@ -178,7 +178,6 @@ darename(){
 }
 
 # ---------------------------------------------------------------------
-# その他（ユーティリティ/環境系）
 # zshrc管理
 # ---------------------------------------------------------------------
 ae cmd "cat ~/.zshrc | grep ae"
@@ -187,6 +186,12 @@ ae zso "source ~/.zshrc"
 ae zvi "vi ~/.zshrc"
 ae zshs "sh ./_zsh_save.sh && source ~/.zshrc"
 ae zshsave "zshs && zshs && sh ./_save.sh"
+
+# ---------------------------------------------------------------------
+# リンク/メモ
+# ---------------------------------------------------------------------
+ae --echo slack "/remind me リマインド内容"
+ae gmail "echo \"https://mail.google.com/mail/u/0/#search/is%3Aunread\""
 
 # ---------------------------------------------------------------------
 alias zshs="echo '=== sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc ===' && sh  ~/Desktop/path/to/_zsh_save.sh && source ~/.zshrc"
