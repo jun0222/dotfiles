@@ -1,0 +1,83 @@
+/* @theme custom */
+
+@import 'default';
+
+:root {
+  --color-background: #fafafa;
+  --color-foreground: #1a1a1a;
+  --color-highlight: #0070f3;
+  --font-scale: 1em;
+}
+
+section {
+  font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+section.lead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  color: var(--color-highlight);
+  border-bottom: 3px solid var(--color-highlight);
+  padding-bottom: 0.2em;
+}
+
+h2 {
+  color: var(--color-highlight);
+}
+
+code {
+  background: #f0f0f0;
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+pre {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 8px;
+}
+
+blockquote {
+  border-left: 4px solid var(--color-highlight);
+  background: #f0f7ff;
+  padding: 0.5em 1em;
+  border-radius: 0 8px 8px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background: var(--color-highlight);
+  color: white;
+  padding: 0.5em 1em;
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 0.4em 1em;
+}
+
+tr:nth-child(even) td {
+  background: #f5f5f5;
+}
+
+section::after {
+  font-size: 0.6em;
+  color: #999;
+}
