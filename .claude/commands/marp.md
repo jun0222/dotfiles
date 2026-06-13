@@ -16,7 +16,7 @@
    - トピック（必須）
    - `--slides N`：スライド数（デフォルト: 8）
    - `--theme <name>`：テーマ（デフォルト: default）
-   - `--out <file>`：出力ファイルパス（デフォルト: `./marp/<トピックをsnake_case>.md`）
+   - `--out <file>`：出力ファイルパス（デフォルト: `./marp/output/<トピックをsnake_case>.md`）
 
 2. **フロントマターを生成**
    ```yaml
@@ -47,6 +47,10 @@
    # HTML出力
    marp <file>
    ```
+   
+6. ユーザーの確認を楽に
+
+最後にcliにて `open ./marp/output` を実行し、ユーザーが結果を簡単に確認できるようにする
 
 ## ルール
 
