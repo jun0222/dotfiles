@@ -177,6 +177,103 @@ darename(){
 }
 
 # ---------------------------------------------------------------------
+# ファイル整理
+# ---------------------------------------------------------------------
+
+# orgfiles 用: 安全にファイルを移動する（同名ファイルがあれば日時を付与して退避）
+_orgfiles_mv(){
+    local src="$1" dst_dir="$2" dry_run="$3"
+    local base="$(basename "$src")"
+    local dst="$dst_dir/$base"
+    if [ "$dry_run" = "1" ]; then
+        echo "  [dry-run] $src → $dst"
+        return
+    fi
+    if [ -e "$dst" ]; then
+        dst="$dst_dir/$(date +%Y%m%d%H%M%S)_$base"
+    fi
+    mv "$src" "$dst" && echo "  ✓ $base → ${dst#$HOME/}"
+}
+
+# ~/Desktop, ~/Downloads のファイルを拡張子別に ~/Desktop 配下のフォルダへ整理する
+# 使い方: orgfiles [--dry-run|-n] [--desktop-only|--downloads-only]
+orgfiles(){
+    _fd $0
+    setopt localoptions nullglob extendedglob
+
+    local dry_run=0 target_desktop=1 target_downloads=1 arg
+
+    for arg in "$@"; do
+        case "$arg" in
+            --dry-run|-n) dry_run=1 ;;
+            --desktop-only) target_downloads=0 ;;
+            --downloads-only) target_desktop=0 ;;
+            --help|-h)
+                echo "使用法: orgfiles [--dry-run|-n] [--desktop-only|--downloads-only]"
+                return 0
+                ;;
+            *)
+                echo "不明なオプション: $arg"
+                return 1
+                ;;
+        esac
+    done
+
+    local desktop="$HOME/Desktop"
+    local -a srcdirs
+    [ "$target_desktop" = "1" ] && srcdirs+=("$desktop")
+    [ "$target_downloads" = "1" ] && srcdirs+=("$HOME/Downloads")
+
+    # カテゴリ: 拡張子（スペース区切り。大文字/小文字どちらの拡張子も対象）
+    local -A categories
+    categories[パワーポイント]="pptx ppt key potx"
+    categories[アプリケーション関係]="zip dmg pkg app tar tgz gz 7z rar"
+    categories[ソースコード類]="html htm js mjs cjs ts tsx jsx sql css scss sass less yml yaml xml vue svelte py rb php go java c cpp h sh"
+    categories[画像]="png jpg jpeg gif heic heif webp svg bmp tiff mov mp4 m4v avi webm"
+    categories[テキスト]="csv txt json md xm drawio pdf log ini toml conf docx xlsx rtf pages numbers"
+
+    # 拡張子ではなくファイル名の接頭辞（プレフィックス）で判定するもの
+    local -A name_patterns
+    name_patterns[画像]="スクリーンショット* 画面収録*"
+
+    local category srcdir ext pattern f target moved=0
+
+    for srcdir in "${srcdirs[@]}"; do
+        [ -d "$srcdir" ] || continue
+
+        for category in "${(@k)categories}"; do
+            target="$desktop/$category"
+            [ "$dry_run" = "1" ] || mkdir -p "$target"
+            for ext in ${(s: :)categories[$category]}; do
+                for f in $srcdir/*.$ext $srcdir/*.${ext:u}; do
+                    [ -e "$f" ] || continue
+                    _orgfiles_mv "$f" "$target" "$dry_run"
+                    moved=1
+                done
+            done
+        done
+
+        for category in "${(@k)name_patterns}"; do
+            target="$desktop/$category"
+            [ "$dry_run" = "1" ] || mkdir -p "$target"
+            for pattern in ${(s: :)name_patterns[$category]}; do
+                for f in $srcdir/$~pattern; do
+                    [ -e "$f" ] || continue
+                    _orgfiles_mv "$f" "$target" "$dry_run"
+                    moved=1
+                done
+            done
+        done
+    done
+
+    if [ "$moved" = "0" ]; then
+        echo "対象ファイルはありませんでした"
+    fi
+}
+
+ae orgfilesdry "orgfiles --dry-run"
+
+# ---------------------------------------------------------------------
 # zshrc管理
 # ---------------------------------------------------------------------
 ae cmd "cat ~/.zshrc | grep ae"
